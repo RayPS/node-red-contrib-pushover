@@ -12,14 +12,6 @@ module.exports = function(RED) {
         if ((credentials) && (credentials.hasOwnProperty("userKey"))) { this.userKey = credentials.userKey; }
         else { this.error("No Pushover user key set"); }
 
-        if (this.token && this.userKey) {
-            
-
-            this.warn("token: " + this.token)
-            this.warn("token: " + this.userKey)
-
-
-        }
         var node = this;
 
         this.on("input",function(msg) {
@@ -34,13 +26,11 @@ module.exports = function(RED) {
             let priority   = msg.priority || 0;
             let sound      = msg.sound || null;
             
-            if (isNaN(pri)) {pri=0;}
-            if (priority > 2) {priority = 2;}
-            if (priority < -2) {priority = -2;}
+            if (priority > 2 || priority < -2) { this.error("priority out of range")}
             if (typeof(message) === 'object') { message = JSON.stringify(message);}
             else { msg.payload = msg.payload.toString(); }
 
-
+            this.warn(msg)
         });
     }
     RED.nodes.registerType("pushover",PushoverNode,{
