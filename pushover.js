@@ -1,7 +1,6 @@
 
 module.exports = function(RED) {
     "use strict";
-    var PushOver = require('pushover-notifications');
     var util = require('util');
 
     function PushoverNode(n) {
@@ -12,17 +11,17 @@ module.exports = function(RED) {
         this.sound = n.sound;
         if (this.sound === '') { this.sound = null; }
         var credentials = this.credentials;
-        if ((credentials) && (credentials.hasOwnProperty("pushkey"))) { this.pushkey = credentials.pushkey; }
+        if ((credentials) && (credentials.hasOwnProperty("token"))) { this.token = credentials.token; }
         else { this.error("No Pushover api token set"); }
-        if ((credentials) && (credentials.hasOwnProperty("deviceid"))) { this.deviceid = credentials.deviceid; }
+        if ((credentials) && (credentials.hasOwnProperty("userKey"))) { this.userKey = credentials.userKey; }
         else { this.error("No Pushover user key set"); }
         var pusher = false;
-        if (this.pushkey && this.deviceid) {
+        if (this.token && this.userKey) {
             pusher = new PushOver({
-                user: this.deviceid,
-                token: this.pushkey,
+                user: this.userKey,
+                token: this.token,
                 onerror: function(err) {
-                    util.log('[57-pushover.js] Error: '+err);
+                    util.log('[pushover.js] Error: '+err);
                 }
             });
         }
@@ -67,8 +66,8 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType("pushover",PushoverNode,{
         credentials: {
-            deviceid: {type:"text"},
-            pushkey: {type: "password"}
+            userKey: {type:"text"},
+            token: {type: "text"}
         }
     });
 }
