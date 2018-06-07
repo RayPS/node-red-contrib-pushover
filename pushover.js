@@ -70,4 +70,14 @@ module.exports = function(RED) {
             token: {type: "text"}
         }
     });
+
+
+
+    function PushoverConfig(n) {
+        RED.nodes.createNode(this,n);
+        this.name = n.name;
+        this.userKey = n.userKey;
+        this.token = n.token;
+    }
+    RED.nodes.registerType("pushover-config",PushoverConfig);
 }
