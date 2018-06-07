@@ -1,4 +1,3 @@
-
 module.exports = function(RED) {
     "use strict";
 
@@ -15,22 +14,25 @@ module.exports = function(RED) {
         var node = this;
 
         this.on("input",function(msg) {
-            let token      = this.token;
-            let user       = this.userKey;
-            let message    = msg.payload;
-            let attachment = null || null;
-            let device     = msg.device;
-            let title      = this.title || msg.topic || "Node-RED";
-            let url        = msg.url || null;
-            let url_title  = msg.url_title || null;
-            let priority   = msg.priority || 0;
-            let sound      = msg.sound || null;
+            msg.payload = typeof(msg.payload) === 'object' ? JSON.stringify(msg.payload) : msg.payload.toString()
+            if (msg.priority > 2 || msg.priority < -2) {
+                this.error("priority out of range")
+                msg.priority = 0
+            }
+            let notification = {
+                "token"      : this.token,
+                "user"       : this.userKey,
+                "message"    : msg.payload,
+                "attachment" : msg.attachment || null,
+                "device"     : msg.device,
+                "title"      : this.title || msg.topic || "Node-RED",
+                "url"        : msg.url || null,
+                "url_title"  : msg.url_title || null,
+                "priority"   : msg.priority || 0,
+                "sound"      : msg.sound || null,
+            }
             
-            if (priority > 2 || priority < -2) { this.error("priority out of range")}
-            if (typeof(message) === 'object') { message = JSON.stringify(message);}
-            else { msg.payload = msg.payload.toString(); }
-
-            this.warn(msg)
+            this.warn(notification)
         });
     }
     RED.nodes.registerType("pushover",PushoverNode,{
