@@ -109,4 +109,20 @@
             });
         }
     });
+
+    RED.nodes.registerType('pushover',{
+        category: 'config',
+        defaults: {
+            name: {value:""},
+            userKey: {value:"",required:true},
+            token: {value:"",required:true},
+        },
+        credentials: {
+            userKey: {type:"text"},
+            token: {type: "text"}
+        },
+        label: function() {
+            return this.name || "pushover config";
+        }
+    });
 </script>
