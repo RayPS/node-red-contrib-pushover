@@ -15,8 +15,8 @@ module.exports = function(RED) {
         if (this.token && this.userKey) {
             
 
-            node.warn("token: " + this.token)
-            node.warn("token: " + this.userKey)
+            this.warn("token: " + this.token)
+            this.warn("token: " + this.userKey)
 
 
         }
