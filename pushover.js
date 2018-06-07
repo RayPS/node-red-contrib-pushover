@@ -17,7 +17,7 @@ module.exports = function(RED) {
         else { this.error("No Pushover user key set"); }
         var pusher = false;
         if (this.token && this.userKey) {
-            pusher = new PushOver({
+            pusher = new PushoverConfig({
                 user: this.userKey,
                 token: this.token,
                 onerror: function(err) {
@@ -76,8 +76,13 @@ module.exports = function(RED) {
     function PushoverConfig(n) {
         RED.nodes.createNode(this,n);
         this.name = n.name;
-        this.userKey = n.userKey;
-        this.token = n.token;
+        this.userKey = this.credentials.userKey;
+        this.token = this.credentials.token;
     }
-    RED.nodes.registerType("pushover-config",PushoverConfig);
+    RED.nodes.registerType("pushover-config",PushoverConfig,{
+        credentials: {
+            userKey: {type:"text"},
+            token: {type: "text"}
+        },
+    });
 }
