@@ -31,7 +31,7 @@ module.exports = function(RED) {
                 node.error('priority out of range');
             }
 
-            node.log(msg)
+            console.log('msg: ' + msg);
 
             let notification = {
                 'token'      : node.token,
@@ -45,6 +45,8 @@ module.exports = function(RED) {
                 'priority'   : msg.priority || null,
                 'sound'      : msg.sound || null,
             };
+
+            console.log('notification: ' + msg);
 
             if (msg.attachment && msg.attachment.match(/^(\w+:\/\/)/igm)) {
                 request.get({url: msg.attachment, encoding: null}, function(error, response, body){
