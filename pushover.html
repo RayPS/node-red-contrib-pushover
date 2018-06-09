@@ -20,22 +20,20 @@
     </div>
     <div class="form-tips" id="node-tip">
         A <code>msg.payload</code> is required to send as the body of the notification.<br>
-        See help for more infomations.
+        See help for more available options.
     </div>
 </script>
 
 <script type="text/x-red" data-help-name="pushover">
-    <h1 id="toc_0">Available Inputs</h1>
-    <ul
-    <li><p><code>msg.payload</code>(required): The body of the notification, supports a <a href="https://pushover.net/api#html">fw html tags</a></p></li><br>
-    <li><p><code>msg.device</code>: Default for all device if not provided. Seprated by a comma</p></li><br>
-    <li><p><code>msg.topic</code>: This will be used as the title of the notifcation if <code>Title</code> is not set</p></li><br>
-    <li><p><code>msg.url</code>: Can add an url to your notification</p></li><br
-    <li><p><code>msg.url_title</code>: Can set the title of the url</p></li><br
-    <li><p><code>msg.priority</code>: -2/-1/1/2, <a href="https://pushover.net/api#priority">see explain/a></p></li><br>
-    <li><p><code>msg.sound</code>: Name of the notification sound, <a href="https://pushover.net/api#sounds">see the list</a></p></li><br>
-    <li><p><code>msg.attachment</code>: The URL of the image. Local file path or http(s) url.</p></li><br>
-    </ul>
+    <h1 id="toc_0">Available Inputs</h1><br>
+    <p><code>msg.payload</code>(required): The body of the notification, supports a <a href="https://pushover.net/api#html">few html tags</a></p></li><br>
+    <p><code>msg.device</code>: Default for all device if not provided. Seprated by a comma</p></li><br>
+    <p><code>msg.topic</code>: This will be used as the title of the notifcation if <code>Title</code> is not set</p></li><br>
+    <p><code>msg.url</code>: Can add an url to your notification</p></li><br>
+    <p><code>msg.url_title</code>: Can set the title of the url</p></li><br>
+    <p><code>msg.priority</code>: -2/-1/1/2, <a href="https://pushover.net/api#priority">see explain</a></p></li><br>
+    <p><code>msg.sound</code>: Name of the notification sound, <a href="https://pushover.net/api#sounds">see the list</a></p></li><br>
+    <p><code>msg.attachment</code>: The URL of the image. Local file path or http(s) url</p></li>
 </script>
 
 <script type="text/javascript">

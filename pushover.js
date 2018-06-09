@@ -14,13 +14,12 @@ module.exports = function(RED) {
         else { this.error('No Pushover user key set'); }
 
         var push = function(form){
-            console.log(form);
             request.post({ url: 'https://api.pushover.net/1/messages.json?html=1', formData: form }, function(err,httpResponse,body){
                 let result = JSON.parse(body);
                 if (result.status != 1) {
                     node.error('Pushover error: ' + JSON.stringify(result.errors));
                 } else {
-                    node.log('pushover succeeded: ' + JSON.stringify(body));
+                    node.log('pushover POST succeeded:\n' + JSON.stringify(body));
                 }
             }).on('error', function(err) {
                 this.error('Pushover error: ' + err);
