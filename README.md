@@ -18,7 +18,7 @@ Uses Pushover to push notification to a device that has the Pushover app install
 
 - `msg.payload`(required): The body of the notification, supports a [few html tags](https://pushover.net/api#html)
 - `msg.topic`: This will be used as the title of the notification if `Title` is not set
-- `msg.attachment`: The URL of the image in notification. Local file path or http(s) url
+- `msg.image`: The URL of the image in notification. Local file path or http(s) url
 - `msg.url`: Can add an url to your notification
 - `msg.url_title`: Can set the title of the url
 - `msg.priority`: -2/-1/1/2, [see explain](https://pushover.net/api#priority)

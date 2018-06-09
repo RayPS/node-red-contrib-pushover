@@ -78,10 +78,10 @@ module.exports = function(RED) {
                 if (!notification[k]) { delete notification[k]; }
             }
 
-            if (msg.attachment) {
-                if (msg.attachment.match(/^(\w+:\/\/)/igm)) {
-                    // attachment is remote file
-                    request.get({url: msg.attachment, encoding: null}, function(error, response, body){
+            if (msg.image) {
+                if (msg.image.match(/^(\w+:\/\/)/igm)) {
+                    // image is remote file
+                    request.get({url: msg.image, encoding: null}, function(error, response, body){
                         fs.writeFileSync('/tmp/pushover-image', body);
                         notification.attachment = fs.createReadStream('/tmp/pushover-image');
                         push(notification);
@@ -89,8 +89,8 @@ module.exports = function(RED) {
                         node.error('Pushover error: ' + err);
                     });
                 } else {
-                    // attachment is local file
-                    notification.attachment = fs.createReadStream(msg.attachment);
+                    // image is local file
+                    notification.attachment = fs.createReadStream(msg.image);
                     push(notification);
                 }
             } else {
