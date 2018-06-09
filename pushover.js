@@ -30,10 +30,10 @@ module.exports = function(RED) {
 
 
         var keys = RED.nodes.getNode(n.keys);
-        var credentials = RED.nodes.getCredentials(this.twitter);
+        var credentials = RED.nodes.getCredentials(this.credentials);
 
-        this.warn(credentials.userKey);
-        this.warn(credentials.token);
+        this.warn(JSON.stringify(credentials));
+        this.warn(JSON.stringify(keys));
 
         if (keys) {
             if (!keys.userKey) { this.error('No pushover user key'); }
