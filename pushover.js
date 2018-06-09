@@ -29,11 +29,11 @@ module.exports = function(RED) {
         this.title = n.title;
 
 
+        var credentials = RED.nodes.getCredentials(n.keys);
         var keys = RED.nodes.getNode(n.keys);
-        var credentials = RED.nodes.getCredentials(n.credentials);
 
         this.warn('credentials: ' + JSON.stringify(credentials));
-        this.warn('keys: ' + JSON.stringify(keys));
+        this.warn('keys: ' + JSON.stringify(keys.credentials));
 
         if (keys) {
             if (!keys.userKey) { this.error('No pushover user key'); }
