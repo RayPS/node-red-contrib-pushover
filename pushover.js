@@ -55,16 +55,22 @@ module.exports = function(RED) {
                 if (!notification[k]) { delete notification[k]; }
             }
 
-            if (msg.attachment && msg.attachment.match(/^(\w+:\/\/)/igm)) {
-                request.get({url: msg.attachment, encoding: null}, function(error, response, body){
-                    fs.writeFileSync('/tmp/pushover-image', body);
-                    notification.attachment = fs.createReadStream('/tmp/pushover-image');
+            if (msg.attachment) {
+                if (msg.attachment.match(/^(\w+:\/\/)/igm)) {
+                    // attachment is remote file
+                    request.get({url: msg.attachment, encoding: null}, function(error, response, body){
+                        fs.writeFileSync('/tmp/pushover-image', body);
+                        notification.attachment = fs.createReadStream('/tmp/pushover-image');
+                        push(notification);
+                    }).on('error', function(err) {
+                        node.error('Pushover error: ' + err);
+                    });
+                } else {
+                    // attachment is local file
+                    notification.attachment = fs.createReadStream(msg.attachment);
                     push(notification);
-                }).on('error', function(err) {
-                    node.error('Pushover error: ' + err);
-                });
+                }
             } else {
-                notification.attachment = msg.attachment;
                 push(notification);
             }
         });
