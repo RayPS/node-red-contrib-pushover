@@ -44,6 +44,7 @@
 </script>
 
 <script type="text/javascript">
+(function() {
     RED.nodes.registerType('pushover-keys',{
         category: 'config',
         defaults: {
@@ -57,7 +58,10 @@
             return this.name || "My Pushover Keys";
         }
     });
+})();
+</script>
 
+<script type="text/javascript">
     RED.nodes.registerType('pushover',{
         category: 'mobile-output',
         defaults: {
