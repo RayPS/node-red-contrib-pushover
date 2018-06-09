@@ -7,6 +7,11 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,n);
 
         this.title = n.title;
+
+
+        this.server = RED.nodes.getNode(config.server);
+
+
         var credentials = this.credentials;
         if ((credentials) && (credentials.hasOwnProperty('token'))) { this.token = credentials.token; }
         else { this.error('No Pushover api token set'); }
@@ -29,6 +34,13 @@ module.exports = function(RED) {
         var node = this;
 
         this.on('input',function(msg) {
+
+
+            
+            node.warn(node.server);
+
+
+
             msg.payload = typeof(msg.payload) === 'object' ? JSON.stringify(msg.payload) : msg.payload.toString();
             if (msg.payload == '' || typeof(msg.payload) != 'string'){
                 node.error('Pushover error: payload has no string');
@@ -81,3 +93,14 @@ module.exports = function(RED) {
         }
     });
 };
+
+
+
+module.exports = function(RED) {
+    function RemoteServerNode(n) {
+        RED.nodes.createNode(this,n);
+        this.host = n.host;
+        this.port = n.port;
+    }
+    RED.nodes.registerType("remote-server",RemoteServerNode);
+}

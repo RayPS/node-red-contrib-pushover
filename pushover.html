@@ -18,6 +18,22 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+
+
+
+    
+    <div class="form-row">
+        <label for="node-config-input-host"><i class="icon-bookmark"></i> Host</label>
+        <input type="text" id="node-config-input-host">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-port"><i class="icon-bookmark"></i> Port</label>
+        <input type="text" id="node-config-input-port">
+    </div>
+
+
+
+
     <div class="form-tips" id="node-tip">
         A <code>msg.payload</code> is required to send as the body of the notification.<br>
         See help for more available options.
@@ -54,6 +70,27 @@
         align: "right",
         label: function() {
             return this.name || this.title || "pushover";
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('remote-server',{
+        category: 'config',
+        defaults: {
+            host: {value:"localhost",required:true},
+            port: {value:1234,required:true,validate:RED.validators.number()},
+        },
+        label: function() {
+            return this.host+":"+this.port;
         }
     });
 </script>
