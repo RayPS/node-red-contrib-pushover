@@ -24,8 +24,8 @@ module.exports = function(RED) {
 
         this.on('input',function(msg) {
             msg.payload = typeof(msg.payload) === 'object' ? JSON.stringify(msg.payload) : msg.payload.toString();
-            if (msg.payload == '' || typeof msg.payload != String){
-                node.error('Pushover error: payload has no content');
+            if (msg.payload == '' || typeof(msg.payload) != 'string'){
+                node.error('Pushover error: payload has no string');
             }
             if (msg.priority > 2 || msg.priority < -2) {
                 node.error('priority out of range');
