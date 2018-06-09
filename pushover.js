@@ -28,18 +28,11 @@ module.exports = function(RED) {
 
         this.title = n.title;
 
+        this.keys =  = RED.nodes.getCredentials(n.keys);
 
-        var credentials = RED.nodes.getCredentials(n.keys);
-        // var keys = RED.nodes.getNode(n.keys);
-
-        // this.warn('credentials: ' + JSON.stringify(credentials));
-        // this.warn('keys: ' + JSON.stringify(keys.credentials));
-
-        if (credentials) {
-            if (!credentials.userKey) { this.error('No pushover user key'); }
-            else {this.warn('userKey: ' + credentials.userKey);}
-            if (!credentials.token) { this.error('No pushover token'); }
-            else {this.warn('token: ' + credentials.token);}
+        if (this.keys) {
+            if (!this.keys.userKey) { this.error('No pushover user key'); }
+            if (!this.keys.token) { this.error('No pushover token'); }
         } else {
             this.error('No pushover keys configuration');
         }
@@ -69,8 +62,8 @@ module.exports = function(RED) {
             }
 
             let notification = {
-                'token'      : node.token,
-                'user'       : node.userKey,
+                'token'      : node.keys.token,
+                'user'       : node.keys.userKey,
                 'message'    : msg.payload,
                 'device'     : msg.device,
                 'title'      : node.title || msg.topic || 'Node-RED Notification',
