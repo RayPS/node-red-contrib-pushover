@@ -65,6 +65,7 @@ module.exports = function(RED) {
                 });
             } else {
                 notification.attachment = msg.attachment;
+                push(notification);
             }
         });
     }
