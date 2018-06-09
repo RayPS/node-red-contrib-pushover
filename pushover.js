@@ -9,14 +9,14 @@ module.exports = function(RED) {
         this.title = n.title;
 
 
-        this.server = RED.nodes.getNode(config.server);
+        this.keys = RED.nodes.getNode(n.keys);
 
 
-        var credentials = this.credentials;
-        if ((credentials) && (credentials.hasOwnProperty('token'))) { this.token = credentials.token; }
-        else { this.error('No Pushover api token set'); }
-        if ((credentials) && (credentials.hasOwnProperty('userKey'))) { this.userKey = credentials.userKey; }
-        else { this.error('No Pushover user key set'); }
+        // var credentials = this.credentials;
+        // if ((credentials) && (credentials.hasOwnProperty('token'))) { this.token = credentials.token; }
+        // else { this.error('No Pushover api token set'); }
+        // if ((credentials) && (credentials.hasOwnProperty('userKey'))) { this.userKey = credentials.userKey; }
+        // else { this.error('No Pushover user key set'); }
 
         var push = function(form){
             request.post({ url: 'https://api.pushover.net/1/messages.json?html=1', formData: form }, function(err,httpResponse,body){
@@ -37,7 +37,7 @@ module.exports = function(RED) {
 
 
             
-            node.warn(node.server);
+            node.warn(node.keys);
 
 
 
@@ -88,8 +88,6 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType('pushover',PushoverNode,{
         credentials: {
-            userKey: {type:'text'},
-            token: {type: 'text'}
         }
     });
 
@@ -97,10 +95,10 @@ module.exports = function(RED) {
 
 
 
-    function RemoteServerNode(n) {
+    function PushoverKeys(n) {
         RED.nodes.createNode(this,n);
-        this.host = n.host;
-        this.port = n.port;
+        this.userKey = n.userKey;
+        this.token = n.token;
     }
-    RED.nodes.registerType("remote-server",RemoteServerNode);
+    RED.nodes.registerType('pushover-keys',PushoverKeys);
 };

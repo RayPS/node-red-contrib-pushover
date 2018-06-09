@@ -5,21 +5,9 @@
         <input type="text" id="node-input-title" placeholder="Node-RED">
     </div>
     <div class="form-row">
-        <label for="node-input-userKey"><i class="fa fa-user"></i> User key</label>
-        <input type="text" id="node-input-userKey">
+        <label for="node-input-keys"><i class="fa fa-user"></i> Keys</label>
+        <input type="text" id="node-input-keys">
     </div>
-    <div class="form-row">
-        <label for="node-input-token"><i class="fa fa-key"></i> API token</label>
-        <input type="text" id="node-input-token">
-    </div>
-
-
-    <div class="form-row">
-        <label for="node-input-config"><i class="fa fa-user"></i> Config</label>
-        <input type="text" id="node-input-config">
-    </div>
-
-
     <br/>
     <br/>
     <div class="form-row">
@@ -32,14 +20,14 @@
     </div>
 </script>
 
-<script type="text/x-red" data-template-name="remote-server">
+<script type="text/x-red" data-template-name="pushover-keys">
     <div class="form-row">
-        <label for="node-config-input-host"><i class="icon-bookmark"></i> Host</label>
-        <input type="text" id="node-config-input-host">
+        <label for="node-config-input-userKey"><i class="icon-bookmark"></i> User</label>
+        <input type="text" id="node-config-input-userKey">
     </div>
     <div class="form-row">
-        <label for="node-config-input-port"><i class="icon-bookmark"></i> Port</label>
-        <input type="text" id="node-config-input-port">
+        <label for="node-config-input-token"><i class="icon-bookmark"></i> Token</label>
+        <input type="text" id="node-config-input-token">
     </div>
 </script>
 
@@ -64,8 +52,6 @@
             config: {type: "remote-server", required: true}
         },
         credentials: {
-            userKey: {type:"text",required:true},
-            token: {type: "text",required:true}
         },
         color:"#209BF0",
         inputs:1,
@@ -81,14 +67,17 @@
 
 
 
-    RED.nodes.registerType('remote-server',{
+    RED.nodes.registerType('pushover-keys',{
         category: 'config',
         defaults: {
-            host: {value:"localhost",required:true},
-            port: {value:1234,required:true,validate:RED.validators.number()},
+            name: {value:"My Pushover Keys"},
+        },
+        credentials: {
+            userKey: {type:"text",required:true},
+            token: {type: "text",required:true}
         },
         label: function() {
-            return this.host+":"+this.port;
+            return this.name || "My Pushover Keys";
         }
     });
 </script>
