@@ -8,9 +8,15 @@ module.exports = function(RED) {
 
         this.title = n.title;
 
-
-        this.keys = RED.nodes.getNode(n.keys);
-
+        var keys = RED.nodes.getNode(n.keys);
+        if (keys) {
+            this.warn('userKey: ' + keys.userKey);
+            this.warn('token: ' + keys.token);
+            if (!keys.userKey) { this.error('No pushover user key'); }
+            if (!keys.token) { this.error('No pushover token'); }
+        } else {
+            this.error('No pushover keys configuration');
+        }
 
         // var credentials = this.credentials;
         // if ((credentials) && (credentials.hasOwnProperty('token'))) { this.token = credentials.token; }
@@ -54,7 +60,7 @@ module.exports = function(RED) {
                 'user'       : node.userKey,
                 'message'    : msg.payload,
                 'device'     : msg.device,
-                'title'      : node.title || msg.topic || 'Node-RED',
+                'title'      : node.title || msg.topic || 'Node-RED Notification',
                 'url'        : msg.url,
                 'url_title'  : msg.url_title,
                 'priority'   : msg.priority,
@@ -87,12 +93,7 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType('pushover',PushoverNode,{
-        credentials: {
-        }
     });
-
-
-
 
 
     function PushoverKeys(n) {
@@ -100,5 +101,6 @@ module.exports = function(RED) {
         this.userKey = n.userKey;
         this.token = n.token;
     }
+
     RED.nodes.registerType('pushover-keys',PushoverKeys);
 };

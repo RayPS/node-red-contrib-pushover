@@ -2,7 +2,7 @@
 <script type="text/x-red" data-template-name="pushover">
     <div class="form-row">
         <label for="node-input-title"><i class="fa fa-flag"></i> Title</label>
-        <input type="text" id="node-input-title" placeholder="Node-RED">
+        <input type="text" id="node-input-title" placeholder="Node-RED Notification">
     </div>
     <div class="form-row">
         <label for="node-input-keys"><i class="fa fa-user"></i> Keys</label>
@@ -44,6 +44,20 @@
 </script>
 
 <script type="text/javascript">
+    RED.nodes.registerType('pushover-keys',{
+        category: 'config',
+        defaults: {
+            name: {value:"My Pushover Keys"},
+        },
+        credentials: {
+            userKey: {type:"text",required:true},
+            token: {type: "text",required:true}
+        },
+        label: function() {
+            return this.name || "My Pushover Keys";
+        }
+    });
+
     RED.nodes.registerType('pushover',{
         category: 'mobile-output',
         defaults: {
@@ -60,24 +74,6 @@
         align: "right",
         label: function() {
             return this.name || this.title || "pushover";
-        }
-    });
-
-
-
-
-
-    RED.nodes.registerType('pushover-keys',{
-        category: 'config',
-        defaults: {
-            name: {value:"My Pushover Keys"},
-        },
-        credentials: {
-            userKey: {type:"text",required:true},
-            token: {type: "text",required:true}
-        },
-        label: function() {
-            return this.name || "My Pushover Keys";
         }
     });
 </script>
