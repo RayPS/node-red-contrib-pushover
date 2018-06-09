@@ -52,14 +52,14 @@ module.exports = function(RED) {
             };
 
             for (let k in notification) {
-                if (!notification[n]) { delete notification[n]; }
+                if (!notification[k]) { delete notification[k]; }
             }
 
             if (msg.attachment && msg.attachment.match(/^(\w+:\/\/)/igm)) {
                 request.get({url: msg.attachment, encoding: null}, function(error, response, body){
                     fs.writeFileSync('/tmp/pushover-image', body);
                     notification.attachment = fs.createReadStream('/tmp/pushover-image');
-                    node.push(notification);
+                    push(notification);
                 }).on('error', function(err) {
                     node.error('Pushover error: ' + err);
                 });
