@@ -13,8 +13,8 @@ module.exports = function(RED) {
 
     RED.nodes.registerType('pushover-keys',PushoverKeys,{
         credentials: {
-            userKey: {type:"text"},
-            token: {type: "text"}
+            userKey: {type:'text'},
+            token: {type: 'text'}
         }
     });
 
@@ -29,15 +29,15 @@ module.exports = function(RED) {
         this.title = n.title;
 
 
-        // var keys = RED.nodes.getNode(n.keys);
-        var credentials = RED.nodes.getCredentials(this.twitter);
-        this.warn(credentials);
+        var keys = RED.nodes.getNode(n.keys);
+        // var credentials = RED.nodes.getCredentials(this.twitter);
+        // this.warn(keys);
 
-        if (credentials) {
-            if (!credentials.userKey) { this.error('No pushover user key'); }
-            else {this.warn('userKey: ' + credentials.userKey);}
-            if (!credentials.token) { this.error('No pushover token'); }
-            else {this.warn('token: ' + credentials.token);}
+        if (keys) {
+            if (!keys.userKey) { this.error('No pushover user key'); }
+            else {this.warn('userKey: ' + keys.userKey);}
+            if (!keys.token) { this.error('No pushover token'); }
+            else {this.warn('token: ' + keys.token);}
         } else {
             this.error('No pushover keys configuration');
         }
