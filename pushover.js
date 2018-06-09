@@ -3,26 +3,39 @@ module.exports = function(RED) {
     const request = require('request');
     const fs = require('fs');
 
+
+
+    function PushoverKeys(n) {
+        RED.nodes.createNode(this,n);
+        this.userKey = n.userKey;
+        this.token = n.token;
+    }
+
+    RED.nodes.registerType('pushover-keys',PushoverKeys);
+
+
+
+
+
+
     function PushoverNode(n) {
         RED.nodes.createNode(this,n);
 
         this.title = n.title;
 
-        var keys = RED.nodes.getNode(n.keys);
-        if (keys) {
-            this.warn('userKey: ' + keys.userKey);
-            this.warn('token: ' + keys.token);
-            if (!keys.userKey) { this.error('No pushover user key'); }
-            if (!keys.token) { this.error('No pushover token'); }
+
+        // var keys = RED.nodes.getNode(n.keys);
+        var credentials = RED.nodes.getCredentials(this.twitter);
+        this.warn(credentials);
+
+        if (credentials) {
+            if (!credentials.userKey) { this.error('No pushover user key'); }
+            else {this.warn('userKey: ' + credentials.userKey);}
+            if (!credentials.token) { this.error('No pushover token'); }
+            else {this.warn('token: ' + credentials.token);}
         } else {
             this.error('No pushover keys configuration');
         }
-
-        // var credentials = this.credentials;
-        // if ((credentials) && (credentials.hasOwnProperty('token'))) { this.token = credentials.token; }
-        // else { this.error('No Pushover api token set'); }
-        // if ((credentials) && (credentials.hasOwnProperty('userKey'))) { this.userKey = credentials.userKey; }
-        // else { this.error('No Pushover user key set'); }
 
         var push = function(form){
             request.post({ url: 'https://api.pushover.net/1/messages.json?html=1', formData: form }, function(err,httpResponse,body){
@@ -40,13 +53,6 @@ module.exports = function(RED) {
         var node = this;
 
         this.on('input',function(msg) {
-
-
-            
-            node.warn(node.keys);
-
-
-
             msg.payload = typeof(msg.payload) === 'object' ? JSON.stringify(msg.payload) : msg.payload.toString();
             if (msg.payload == '' || typeof(msg.payload) != 'string'){
                 node.error('Pushover error: payload has no string');
@@ -92,15 +98,5 @@ module.exports = function(RED) {
             }
         });
     }
-    RED.nodes.registerType('pushover',PushoverNode,{
-    });
-
-
-    function PushoverKeys(n) {
-        RED.nodes.createNode(this,n);
-        this.userKey = n.userKey;
-        this.token = n.token;
-    }
-
-    RED.nodes.registerType('pushover-keys',PushoverKeys);
+    RED.nodes.registerType('pushover',PushoverNode);
 };
