@@ -11,7 +11,12 @@ module.exports = function(RED) {
         this.token = n.token;
     }
 
-    RED.nodes.registerType('pushover-keys',PushoverKeys);
+    RED.nodes.registerType('pushover-keys',PushoverKeys,{
+        credentials: {
+            userKey: {type:"text"},
+            token: {type: "text"}
+        }
+    });
 
 
 
