@@ -21,7 +21,7 @@
 
 
 
-    
+
     <div class="form-row">
         <label for="node-config-input-host"><i class="icon-bookmark"></i> Host</label>
         <input type="text" id="node-config-input-host">
@@ -72,18 +72,12 @@
             return this.name || this.title || "pushover";
         }
     });
-</script>
 
 
 
 
 
-
-
-
-
-<script type="text/javascript">
-    RED.nodes.registerType('remote-server',{
+        RED.nodes.registerType('remote-server',{
         category: 'config',
         defaults: {
             host: {value:"localhost",required:true},
