@@ -31,6 +31,8 @@ module.exports = function(RED) {
                 node.error('priority out of range');
             }
 
+            node.log(msg)
+
             let notification = {
                 'token'      : node.token,
                 'user'       : node.userKey,
