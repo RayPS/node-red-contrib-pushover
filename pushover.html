@@ -12,6 +12,14 @@
         <label for="node-input-token"><i class="fa fa-key"></i> API token</label>
         <input type="text" id="node-input-token">
     </div>
+
+
+    <div class="form-row">
+        <label for="node-input-config"><i class="fa fa-user"></i> Config</label>
+        <input type="text" id="node-input-config">
+    </div>
+
+
     <br/>
     <br/>
     <div class="form-row">
@@ -52,7 +60,8 @@
         category: 'mobile-output',
         defaults: {
             name: {value:""},
-            title: {value:""}
+            title: {value:""},
+            config: {type: "remote-server", required: true}
         },
         credentials: {
             userKey: {type:"text",required:true},
