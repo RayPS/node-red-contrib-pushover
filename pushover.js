@@ -15,7 +15,14 @@ module.exports = function(RED) {
 
         var push = function(form){
             console.log(form);
-            request.post({ url: 'https://api.pushover.net/1/messages.json?html=1', formData: form }).on('error', function(err) {
+            request.post({ url: 'https://api.pushover.net/1/messages.json?html=1', formData: form }, function(err,httpResponse,body){
+                let result = JSON.parse(body);
+                if (result.status != 1) {
+                    node.error('Pushover error: ' + JSON.stringify(result.errors));
+                } else {
+                    node.log('pushover succeeded: ' + JSON.stringify(body));
+                }
+            }).on('error', function(err) {
                 this.error('Pushover error: ' + err);
             });
         };
@@ -31,22 +38,22 @@ module.exports = function(RED) {
                 node.error('priority out of range');
             }
 
-            node.log('msg: ' + JSON.stringify(msg));
-
             let notification = {
                 'token'      : node.token,
                 'user'       : node.userKey,
                 'message'    : msg.payload,
-                // 'attachment' : null,
-                'device'     : msg.device || null,
+                'device'     : msg.device,
                 'title'      : node.title || msg.topic || 'Node-RED',
-                'url'        : msg.url || null,
-                'url_title'  : msg.url_title || null,
-                'priority'   : msg.priority || null,
-                'sound'      : msg.sound || null,
+                'url'        : msg.url,
+                'url_title'  : msg.url_title,
+                'priority'   : msg.priority,
+                'sound'      : msg.sound,
+                // 'attachment'
             };
 
-            node.log('notification: ' + JSON.stringify(notification));
+            for (let k in notification) {
+                if (!notification[n]) { delete notification[n]; }
+            }
 
             if (msg.attachment && msg.attachment.match(/^(\w+:\/\/)/igm)) {
                 request.get({url: msg.attachment, encoding: null}, function(error, response, body){
