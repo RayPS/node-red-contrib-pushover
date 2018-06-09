@@ -25,11 +25,17 @@
 </script>
 
 <script type="text/x-red" data-help-name="pushover">
-    <p>Uses Pushover to push the <code>msg.payload</code> to a device that has the Pushover app installed.</p>
-    <p>Optionally uses <code>msg.topic</code> to set the title, <code>msg.device</code> to set the device,
-    <code>msg.priority</code> to set the priority, <code>msg.url</code> to add a web address and <code>msg.url_title</code>
-    to add a url title if not already set in the properties.</p>
-    <p>Uses Pushover. See <i><a href="https://pushover.net" target="_new">this link</a></i> for more details.</p>
+<h1 id="toc_0">Available Inputs</h1>
+<ul>
+<li><code>msg.payload</code>(required): The body of the notification, supports a <a href="https://pushover.net/api#html">few html tags</a></li>
+<li><code>msg.device</code>: Default for all device if not provided. Separated by a comma</li>
+<li><code>msg.topic</code>: This will be used as the title of the notification if <code>Title</code> is not set</li>
+<li><code>msg.url</code>: Can add an url to your notification</li>
+<li><code>msg.url_title</code>: Can set the title of the url</li>
+<li><code>msg.priority</code>: -2/-1/1/2, <a href="https://pushover.net/api#priority">see explain</a></li>
+<li><code>msg.sound</code>: Name of the notification sound, <a href="https://pushover.net/api#sounds">see the list</a></li>
+<li><code>msg.attachment</code>: The URL of the image. Local file path or http(s) url.</li>
+</ul>
 </script>
 
 <script type="text/javascript">
