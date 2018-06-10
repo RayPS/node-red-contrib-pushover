@@ -59,7 +59,7 @@ module.exports = function(RED) {
             }
 
             function parseImageUrl() {
-                let hasProtocol = msg.image.match(/^(\w+:\/\/)/igm)
+                let hasProtocol = msg.image.match(/^(\w+:\/\/)/igm);
                 if (hasProtocol) {
                     return request.get({url: msg.image, encoding: null}).on('error', function(err){ node.error('image error: ' + err); });
                 } else {
