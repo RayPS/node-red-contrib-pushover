@@ -20,14 +20,10 @@ module.exports = function(RED) {
 
 
 
-
-
-
     function PushoverNode(n) {
         RED.nodes.createNode(this,n);
 
         this.title = n.title;
-
         this.keys = RED.nodes.getCredentials(n.keys);
 
         if (this.keys) {
@@ -37,28 +33,12 @@ module.exports = function(RED) {
             this.error('No pushover keys configuration');
         }
 
-        var push = function(form){
-            request.post({ url: 'https://api.pushover.net/1/messages.json?html=1', formData: form }, function(err,httpResponse,body){
-                let result = JSON.parse(body);
-                if (result.status != 1) {
-                    node.error('Pushover error: ' + JSON.stringify(result.errors));
-                } else {
-                    node.log('pushover POST succeeded:\n' + JSON.stringify(body));
-                }
-            }).on('error', function(err) {
-                this.error('Pushover error: ' + err);
-            });
-        };
-
         var node = this;
 
         this.on('input',function(msg) {
-            msg.payload = typeof(msg.payload) === 'object' ? JSON.stringify(msg.payload) : msg.payload.toString();
-            if (msg.payload == '' || typeof(msg.payload) != 'string'){
+
+            if (!msg.payload || typeof(msg.payload) != 'string'){
                 node.error('Pushover error: payload has no string');
-            }
-            if (msg.priority > 2 || msg.priority < -2) {
-                node.error('priority out of range');
             }
 
             let notification = {
@@ -71,31 +51,37 @@ module.exports = function(RED) {
                 'url_title'  : msg.url_title,
                 'priority'   : msg.priority,
                 'sound'      : msg.sound,
-                // 'attachment'
+                'attachment' : msg.image ? parseImageUrl() : null
             };
 
             for (let k in notification) {
                 if (!notification[k]) { delete notification[k]; }
             }
 
-            if (msg.image) {
-                if (msg.image.match(/^(\w+:\/\/)/igm)) {
-                    // image is remote file
-                    request.get({url: msg.image, encoding: null}, function(error, response, body){
-                        fs.writeFileSync('/tmp/pushover-image', body);
-                        notification.attachment = fs.createReadStream('/tmp/pushover-image');
-                        push(notification);
-                    }).on('error', function(err) {
-                        node.error('Pushover error: ' + err);
-                    });
+            function parseImageUrl() {
+                let hasProtocol = msg.image.match(/^(\w+:\/\/)/igm)
+                if (hasProtocol) {
+                    return request.get({url: msg.image, encoding: null}).on('error', function(err){ node.error('image error: ' + err); });
                 } else {
-                    // image is local file
-                    notification.attachment = fs.createReadStream(msg.image);
-                    push(notification);
+                    return fs.createReadStream(msg.image);
                 }
-            } else {
-                push(notification);
             }
+
+            function push(form){
+                let pushoverAPI = 'https://api.pushover.net/1/messages.json?html=1';
+                request.post({ url: pushoverAPI, formData: form }, function(err,httpResponse,body){
+                    let result = JSON.parse(body);
+                    if (result.status != 1) {
+                        node.error('Pushover error: ' + JSON.stringify(result.errors));
+                    } else {
+                        node.log('pushover POST succeeded:\n' + JSON.stringify(body));
+                    }
+                }).on('error', function(err) {
+                    this.error('Pushover error: ' + err);
+                });
+            }
+
+            push(notification);
         });
     }
     RED.nodes.registerType('pushover',PushoverNode);
