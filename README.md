@@ -3,6 +3,8 @@ node-red-contrib-pushover
 
 A <a href="http://nodered.org" target="_new">Node-RED</a> node to send alerts via <a href="http://www.pushover.net/" target="_new">Pushover</a>.
 
+Supports notification image attachment.
+
 Install
 -------
 
