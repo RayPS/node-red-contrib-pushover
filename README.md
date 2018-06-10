@@ -3,18 +3,19 @@ node-red-contrib-pushover
 
 A <a href="http://nodered.org" target="_new">Node-RED</a> node to send alerts via <a href="http://www.pushover.net/" target="_new">Pushover</a>.
 
-Supports notification image attachment.
+Supports rich notification with image attachment.
 
-Install
--------
+![](banner.gif)
+----
+
+### Install
 
 Run the following command in your Node-RED user directory - typically `~/.node-red`
 
     npm install node-red-contrib-pushover
 
 
-Usage
------
+### Usage
 
 Uses Pushover to push notification to a device that has the Pushover app installed.
 
@@ -28,4 +29,4 @@ Uses Pushover to push notification to a device that has the Pushover app install
 - `msg.sound`: Name of the notification sound, [see the list](https://pushover.net/api#sounds)
 
 
-See <a href="https://pushover.net" target="_new">Pushover.net</a> for more details.
+See <a href="https://pushover.net/api" target="_new">Pushover.net</a> for more details.
