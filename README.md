@@ -15,11 +15,10 @@ Run the following command in your Node-RED user directory - typically `~/.node-r
     npm install node-red-contrib-pushover
 
 
-### Usage
-
-Uses Pushover to push notification to a device that has the Pushover app installed.
-
+### Required Inputs
 - `msg.payload`(required): The body of the notification, supports a [few html tags](https://pushover.net/api#html)
+
+### Optional Inputs
 - `msg.topic`: This will be used as the title of the notification if `Title` is not set
 - `msg.image`: The URL of the image in notification. Local file path or http(s) url
 - `msg.url`: Can add an url to your notification
@@ -27,6 +26,7 @@ Uses Pushover to push notification to a device that has the Pushover app install
 - `msg.priority`: -2/-1/1/2, [see explain](https://pushover.net/api#priority)
 - `msg.device`: Default for all device if not provided. Separated by a comma
 - `msg.sound`: Name of the notification sound, [see the list](https://pushover.net/api#sounds)
+- `msg.timestamp`: A unix timestamp to specific the date time of your notification
 
 
 See <a href="https://pushover.net/api" target="_new">Pushover.net</a> for more details.

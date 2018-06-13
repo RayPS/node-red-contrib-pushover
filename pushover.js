@@ -45,13 +45,14 @@ module.exports = function(RED) {
                 'token'      : node.keys.token,
                 'user'       : node.keys.userKey,
                 'message'    : msg.payload,
+                'attachment' : msg.image ? parseImageUrl() : null,
                 'device'     : msg.device,
                 'title'      : node.title || msg.topic || 'Node-RED Notification',
                 'url'        : msg.url,
                 'url_title'  : msg.url_title,
                 'priority'   : msg.priority,
                 'sound'      : msg.sound,
-                'attachment' : msg.image ? parseImageUrl() : null
+                'timestamp'  : msg.timestamp
             };
 
             for (let k in notification) {
