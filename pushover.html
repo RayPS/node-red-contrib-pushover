@@ -32,17 +32,32 @@
 </script>
 
 <script type="text/x-red" data-help-name="pushover">
-    <h1>Required Inputs</h1><br>
-    <p><code>msg.payload</code>(required): The body of the notification, supports a <a href="https://pushover.net/api#html">few html tags</a></p></li><br>
-    <h1>Optional Inputs</h1><br>
-    <p><code>msg.topic</code>: This will be used as the title of the notifcation if <code>Title</code> is not set</p></li><br>
-    <p><code>msg.image</code>: The URL of the image in notification. Local file path or http(s) url</p></li>
-    <p><code>msg.url</code>: Can add an url to your notification</p></li><br>
-    <p><code>msg.url_title</code>: Can set the title of the url</p></li><br>
-    <p><code>msg.priority</code>: -2/-1/1/2, <a href="https://pushover.net/api#priority">see explain</a></p></li><br>
-    <p><code>msg.device</code>: Default for all device if not provided. Seprated by a comma</p></li><br>
-    <p><code>msg.sound</code>: Name of the notification sound, <a href="https://pushover.net/api#sounds">see the list</a></p></li><br>
-    <p><code>msg.timestamp</code>: A unix timestamp to specific the date time of your notification</p></li><br>
+    <p>Uses Pushover to push notification to a device that has the Pushover app installed.</p>
+    <p>Supports rich notification with image attachment.</p>
+    <h3>Required Inputs</h3>
+    <dl class="message-properties">
+        <dt>msg.payload</dt>
+        <dd>The body of the notification, supports a <a href="https://pushover.net/api#html">few html tags</a></dd>
+    </dl>
+    <h3>Optional Inputs</h3>
+    <dl class="message-properties">
+        <dt>msg.topic</dt>
+        <dd>This will be used as the title of the notifcation if <code>Title</code>is not set</dd>
+        <dt>msg.image</dt>
+        <dd>The URL of the image in notification. Local file path or http(s) url</dd>
+        <dt>msg.url</dt>
+        <dd>Can add an url to your notification</dd>
+        <dt>msg.url_title</dt>
+        <dd>Can set the title of the url</dd>
+        <dt>msg.priority</dt>
+        <dd>-2/-1/1/2, <a href="https://pushover.net/api#priority">see explain</a></dd>
+        <dt>msg.device</dt>
+        <dd>Default for all device if not provided. Seprated by a comma</dd>
+        <dt>msg.sound</dt>
+        <dd>Name of the notification sound, <a href="https://pushover.net/api#sounds">see the list</a></dd>
+        <dt>msg.timestamp</dt>
+        <dd>A unix timestamp to specific the date time of your notification</dd>
+    </dl>
 </script>
 
 
