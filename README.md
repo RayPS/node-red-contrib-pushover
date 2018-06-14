@@ -14,6 +14,7 @@ Run the following command in your Node-RED user directory - typically `~/.node-r
 
     npm install node-red-contrib-pushover
 
+[![npm](https://img.shields.io/npm/v/node-red-contrib-pushover.svg)](https://www.npmjs.com/package/node-red-contrib-pushover)
 
 ### Required Inputs
 - `msg.payload`(required): The body of the notification, supports a [few html tags](https://pushover.net/api#html)
