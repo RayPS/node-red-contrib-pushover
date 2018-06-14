@@ -29,7 +29,7 @@
 
 
 
-<script type="text/x-red" data-template-name="pushover">
+<script type="text/x-red" data-template-name="pushover api">
     <div class="form-row">
         <label for="node-input-title"><i class="fa fa-bell"></i> Title</label>
         <input type="text" id="node-input-title" placeholder="Node-RED Notification">
@@ -49,7 +49,7 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="pushover">
+<script type="text/x-red" data-help-name="pushover api">
     <img src='icons/node-red-contrib-pushover/help-pushover-logo.png'/>
     <p>Uses Pushover to push notification to a device that has the Pushover app installed.</p>
     <p>Supports rich notification with image attachment.</p>
@@ -80,7 +80,7 @@
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('pushover',{
+    RED.nodes.registerType('pushover api',{
         category: 'mobile-output',
         defaults: {
             keys: {type: "pushover-keys", required: true},

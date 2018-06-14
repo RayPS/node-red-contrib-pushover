@@ -89,7 +89,7 @@ module.exports = function(RED) {
             push(notification);
         });
     }
-    RED.nodes.registerType('pushover',PushoverNode);
+    RED.nodes.registerType('pushover api',PushoverNode);
 
 
 
