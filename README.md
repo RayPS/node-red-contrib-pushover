@@ -19,7 +19,7 @@ Run the following command in your Node-RED user directory - typically `~/.node-r
 - `msg.payload`(required): The body of the notification, supports a [few html tags](https://pushover.net/api#html)
 
 ### Optional Inputs
-- `msg.topic`: This will be used as the title of the notification if `Title` is not set
+- `msg.topic`: This will be used as the title of the notification if **Title** is not set
 - `msg.image`: The URL of the image in notification. Local file path or http(s) url
 - `msg.url`: Can add an url to your notification
 - `msg.url_title`: Can set the title of the url
@@ -30,3 +30,21 @@ Run the following command in your Node-RED user directory - typically `~/.node-r
 
 
 See <a href="https://pushover.net/api" target="_new">Pushover.net</a> for more details.
+
+## Pushover Glances
+
+![](glances-node.png)
+
+With Pushover's Glances API, you can push small bits of data directly to a constantly-updated screen, referred to as a widget, such as a complication on your smart watch or a widget on your phone's lock screen.
+
+![](glances-preview.jpg)
+
+### Available Inputs
+- `msg.payload`: This will be used as the title if **Title** is not set
+- `msg.text`: The main line
+- `msg.subtext`: The second line
+- `msg.count`: The number
+- `msg.percent`: The progress bar/circle
+- `msg.device`: Device name, default for all
+
+![](glances-props.png)
