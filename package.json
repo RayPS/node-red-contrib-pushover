@@ -1,7 +1,7 @@
 {
     "name": "node-red-contrib-pushover",
     "version": "0.1.4",
-    "description": "A Node-RED node to send Pushover notification",
+    "description": "A Node-RED node to send Pushover notification and Pushover glances",
     "dependencies": {
         "request": "~2.87.0"
     },
