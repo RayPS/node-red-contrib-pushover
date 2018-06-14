@@ -5,6 +5,8 @@ module.exports = function(RED) {
 
 
 
+
+    
     function PushoverKeys(n) {
         RED.nodes.createNode(this,n);
         this.userKey = n.userKey;
@@ -17,6 +19,8 @@ module.exports = function(RED) {
             token: {type: 'text'}
         }
     });
+
+
 
 
 
@@ -42,12 +46,12 @@ module.exports = function(RED) {
             }
 
             let notification = {
+                'title'      : node.title || msg.topic || 'Node-RED Notification',
                 'token'      : node.keys.token,
                 'user'       : node.keys.userKey,
                 'message'    : msg.payload,
                 'attachment' : msg.image ? parseImageUrl() : null,
                 'device'     : msg.device,
-                'title'      : node.title || msg.topic || 'Node-RED Notification',
                 'url'        : msg.url,
                 'url_title'  : msg.url_title,
                 'priority'   : msg.priority,
@@ -89,11 +93,15 @@ module.exports = function(RED) {
 
 
 
+
+
     function PushoverGlancesNode(n) {
         RED.nodes.createNode(this,n);
 
-        this.title = n.title;
         this.keys = RED.nodes.getCredentials(n.keys);
+        this.title = n.title;
+        this.text = n.text;
+        this.subtext = n.subtext;
 
         if (this.keys) {
             if (!this.keys.userKey) { this.error('No pushover user key'); }
@@ -110,14 +118,14 @@ module.exports = function(RED) {
             msg.percent = Math.min(100, Math.max(0, parseInt(msg.percent)));
 
             let glances = {
-                'token'      : node.keys.token,
-                'user'       : node.keys.userKey,
-                'title'    : msg.payload || msg.title,
-                'text'     : msg.text,
-                'subtext'     : msg.subtext,
-                'count'     : msg.count,
-                'percent'     : msg.percent,
-                'device'     : msg.device,
+                'token'   : node.keys.token,
+                'user'    : node.keys.userKey,
+                'title'   : node.title || msg.payload,
+                'text'    : node.text || msg.text,
+                'subtext' : node.subtext || msg.subtext,
+                'count'   : msg.count,
+                'percent' : msg.percent,
+                'device'  : msg.device
             };
 
             for (let t in ['title', 'text', 'subtext']) {
