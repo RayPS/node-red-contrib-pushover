@@ -37,7 +37,7 @@ See <a href="https://pushover.net/api" target="_new">Pushover.net</a> for more d
 
 With Pushover's Glances API, you can push small bits of data directly to a constantly-updated screen, referred to as a widget, such as a complication on your smart watch or a widget on your phone's lock screen.
 
-![](glances-preview.jpg)
+![](icons/help-glances-preview.jpg)
 
 ### Available Inputs
 - `msg.payload`: This will be used as the title if **Title** is not set
@@ -47,4 +47,4 @@ With Pushover's Glances API, you can push small bits of data directly to a const
 - `msg.percent`: The progress bar/circle
 - `msg.device`: Device name, default for all
 
-![](glances-props.png)
+![](icons/help-glances-props.png)
