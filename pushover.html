@@ -1,3 +1,33 @@
+<script type="text/x-red" data-template-name="pushover-keys">
+    <div class="form-row">
+        <label for="node-config-input-userKey"><i class="icon-bookmark"></i> User</label>
+        <input type="text" id="node-config-input-userKey">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-token"><i class="icon-bookmark"></i> Token</label>
+        <input type="text" id="node-config-input-token">
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('pushover-keys',{
+        category: 'config',
+        defaults: {
+            name: {value:"My Pushover Keys"},
+        },
+        credentials: {
+            userKey: {type:"text",required:true},
+            token: {type: "text",required:true}
+        },
+        label: function() {
+            return this.name || "My Pushover Keys";
+        }
+    });
+</script>
+
+
+
+
 
 <script type="text/x-red" data-template-name="pushover">
     <div class="form-row">
@@ -17,17 +47,6 @@
     <div class="form-tips" id="node-tip">
         A <code>msg.payload</code> is required to send as the body of the notification.<br>
         See help for more available options.
-    </div>
-</script>
-
-<script type="text/x-red" data-template-name="pushover-keys">
-    <div class="form-row">
-        <label for="node-config-input-userKey"><i class="icon-bookmark"></i> User</label>
-        <input type="text" id="node-config-input-userKey">
-    </div>
-    <div class="form-row">
-        <label for="node-config-input-token"><i class="icon-bookmark"></i> Token</label>
-        <input type="text" id="node-config-input-token">
     </div>
 </script>
 
@@ -61,36 +80,99 @@
     </dl>
 </script>
 
-
 <script type="text/javascript">
-    RED.nodes.registerType('pushover-keys',{
-        category: 'config',
-        defaults: {
-            name: {value:"My Pushover Keys"},
-        },
-        credentials: {
-            userKey: {type:"text",required:true},
-            token: {type: "text",required:true}
-        },
-        label: function() {
-            return this.name || "My Pushover Keys";
-        }
-    });
-
     RED.nodes.registerType('pushover',{
         category: 'mobile-output',
         defaults: {
-            name: {value:""},
+            keys: {type: "pushover-keys", required: true},
             title: {value:""},
-            keys: {type: "pushover-keys", required: true}
+            name: {value:""}
         },
         color:"#209BF0",
         inputs:1,
         outputs:0,
-        icon: "pushover.png",
+        icon: "pushover.svg",
         align: "right",
         label: function() {
             return this.name || this.title || "pushover";
+        }
+    });
+</script>
+
+
+
+
+
+<script type="text/x-red" data-template-name="glances">
+    <div class="form-row">
+        <label for="node-input-keys"><i class="fa fa-user"></i> Keys</label>
+        <input type="text" id="node-input-keys">
+    </div>
+    <br/>
+    <div class="form-row">
+        <label for="node-input-title"><i class="fa fa-align-left"></i> Title</label>
+        <input type="text" id="node-input-title">
+    </div>
+    <div class="form-row">
+        <label for="node-input-text"><i class="fa fa-align-left"></i> Text</label>
+        <input type="text" id="node-input-text">
+    </div>
+    <div class="form-row">
+        <label for="node-input-subtext"><i class="fa fa-align-left"></i> Subtext</label>
+        <input type="text" id="node-input-subtext">
+    </div>
+    <br/>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-tips" id="node-tip">
+        <code>msg.payload</code> will be used if Title is blank.<br>
+        <code>msg.text</code> will be used if Text is blank.<br>
+        <code>msg.subtext</code> will be used if Subtext is blank.<br>
+        <br>
+        See help for more available options.
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="glances">
+    <img src='https://github.com/RayPS/node-red-contrib-pushover/raw/master/glances-preview.jpg'/>
+    <p>With Pushover's Glances API, you can push small bits of data directly to a constantly-updated screen, referred to as a widget, such as a complication on your smart watch or a widget on your phone's lock screen. </p>
+    <h3>Available Inputs</h3>
+    <dl class="message-properties">
+        <img src='https://github.com/RayPS/node-red-contrib-pushover/raw/master/glances-props.png'/>
+        <dt>msg.payload<span class="property-type">string (100 characters)</span></dt>
+        <dd>This will be used as the title if <b>Title</b> is not set</dd>
+        <dt>msg.text<span class="property-type">string (100 characters)</span></dt>
+        <dd>The main line</dd>
+        <dt>msg.subtext<span class="property-type">string (100 characters)</span></dt>
+        <dd>The second line</dd>
+        <dt>msg.count<span class="property-type">integer (may be negative)</span></dt>
+        <dd>The number</dd>
+        <dt>msg.percent<span class="property-type">integer (0 to 100)</span></dt>
+        <dd>The progress bar/circle</dd>
+        <dt>msg.device<span class="property-type">string</span></dt>
+        <dd>Device name, default for all</dd>
+    </dl>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('glances',{
+        category: 'mobile-output',
+        defaults: {
+            keys: {type: "pushover-keys", required: true},
+            title: {value:""},
+            text: {value:""},
+            subtext: {value:""},
+            name: {value:""}
+        },
+        color:"#209BF0",
+        inputs:1,
+        outputs:0,
+        icon: "pushover-glances.svg",
+        align: "right",
+        label: function() {
+            return this.name || this.title || "glances";
         }
     });
 </script>

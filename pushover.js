@@ -86,4 +86,71 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType('pushover',PushoverNode);
+
+
+
+    function PushoverGlancesNode(n) {
+        RED.nodes.createNode(this,n);
+
+        this.title = n.title;
+        this.keys = RED.nodes.getCredentials(n.keys);
+
+        if (this.keys) {
+            if (!this.keys.userKey) { this.error('No pushover user key'); }
+            if (!this.keys.token) { this.error('No pushover token'); }
+        } else {
+            this.error('No pushover keys configuration');
+        }
+
+        var node = this;
+
+        this.on('input',function(msg) {
+
+            msg.count = parseInt(msg.count);
+            msg.percent = Math.min(100, Math.max(0, parseInt(msg.percent)));
+
+            let glances = {
+                'token'      : node.keys.token,
+                'user'       : node.keys.userKey,
+                'title'    : msg.payload || msg.title,
+                'text'     : msg.text,
+                'subtext'     : msg.subtext,
+                'count'     : msg.count,
+                'percent'     : msg.percent,
+                'device'     : msg.device,
+            };
+
+            for (let t in ['title', 'text', 'subtext']) {
+                if (glances[t] && glances[t].length > 100) {
+                    node.error(`Pushover error: length of "msg.${t}" should less than 100`);
+                    glances[t] = glances[t].slice(0, 100);
+                }
+            }
+
+            for (let k in glances) {
+                if (!glances[k]) { delete glances[k]; }
+            }
+
+            function push(form){
+                let pushoverAPI = 'https://api.pushover.net/1/glances.json';
+                request.post({ url: pushoverAPI, formData: form }, function(err,httpResponse,body){
+                    let result = JSON.parse(body);
+                    if (result.status != 1) {
+                        node.error('Pushover error: ' + JSON.stringify(result.errors));
+                    } else {
+                        node.log('pushover POST succeeded:\n' + JSON.stringify(body));
+                    }
+                }).on('error', function(err) {
+                    this.error('Pushover error: ' + err);
+                });
+            }
+
+            if (Object.keys(glances).length > 2) {
+                push(glances);
+            } else {
+                node.warn('Pushover glances has nothing to send');
+            }
+        });
+    }
+    RED.nodes.registerType('glances',PushoverGlancesNode);
 };
