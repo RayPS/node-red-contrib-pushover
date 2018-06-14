@@ -6,7 +6,7 @@ module.exports = function(RED) {
 
 
 
-    
+
     function PushoverKeys(n) {
         RED.nodes.createNode(this,n);
         this.userKey = n.userKey;
@@ -120,8 +120,8 @@ module.exports = function(RED) {
             let glances = {
                 'token'   : node.keys.token,
                 'user'    : node.keys.userKey,
-                'title'   : node.title || msg.payload,
-                'text'    : node.text || msg.text,
+                'title'   : node.title || msg.topic,
+                'text'    : node.text || msg.payload,
                 'subtext' : node.subtext || msg.subtext,
                 'count'   : msg.count,
                 'percent' : msg.percent,
@@ -129,9 +129,12 @@ module.exports = function(RED) {
             };
 
             for (let t in ['title', 'text', 'subtext']) {
-                if (glances[t] && glances[t].length > 100) {
-                    node.error(`Pushover error: length of "msg.${t}" should less than 100`);
-                    glances[t] = glances[t].slice(0, 100);
+                if (glances[t]) {
+                    glances[t] = String(glances[t]);
+                    if (glances[t].length > 100) {
+                        node.error(`Pushover error: length of "msg.${t}" should less than 100`);
+                        glances[t] = glances[t].slice(0, 100);
+                    }
                 }
             }
 

@@ -31,14 +31,13 @@
 
 <script type="text/x-red" data-template-name="pushover">
     <div class="form-row">
-        <label for="node-input-title"><i class="fa fa-flag"></i> Title</label>
+        <label for="node-input-title"><i class="fa fa-bell"></i> Title</label>
         <input type="text" id="node-input-title" placeholder="Node-RED Notification">
     </div>
     <div class="form-row">
         <label for="node-input-keys"><i class="fa fa-user"></i> Keys</label>
         <input type="text" id="node-input-keys">
     </div>
-    <br/>
     <br/>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
@@ -94,7 +93,7 @@
         icon: "pushover.svg",
         align: "right",
         label: function() {
-            return this.name || this.title || "pushover";
+            return this.name || "pushover";
         }
     });
 </script>
@@ -111,15 +110,15 @@
     <br/>
     <div class="form-row">
         <label for="node-input-title"><i class="fa fa-align-left"></i> Title</label>
-        <input type="text" id="node-input-title">
+        <input type="text" id="node-input-title" placeholder="Leave blank will use msg.topic">
     </div>
     <div class="form-row">
         <label for="node-input-text"><i class="fa fa-align-left"></i> Text</label>
-        <input type="text" id="node-input-text">
+        <input type="text" id="node-input-text" placeholder="Leave blank will use msg.payload">
     </div>
     <div class="form-row">
         <label for="node-input-subtext"><i class="fa fa-align-left"></i> Subtext</label>
-        <input type="text" id="node-input-subtext">
+        <input type="text" id="node-input-subtext" placeholder="Leave blank will use msg.subtext">
     </div>
     <br/>
     <div class="form-row">
@@ -127,11 +126,7 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-tips" id="node-tip">
-        <code>msg.payload</code> will be used if Title is blank.<br>
-        <code>msg.text</code> will be used if Text is blank.<br>
-        <code>msg.subtext</code> will be used if Subtext is blank.<br>
-        <br>
-        See help for more available options.
+        See help for more available inputs.
     </div>
 </script>
 
@@ -141,9 +136,9 @@
     <h3>Available Inputs</h3>
     <dl class="message-properties">
         <img src='icons/node-red-contrib-pushover/help-glances-props.png'/>
-        <dt>msg.payload<span class="property-type">string (100 characters)</span></dt>
+        <dt>msg.topic<span class="property-type">string (100 characters)</span></dt>
         <dd>This will be used as the title if <b>Title</b> is not set</dd>
-        <dt>msg.text<span class="property-type">string (100 characters)</span></dt>
+        <dt>msg.payload<span class="property-type">string (100 characters)</span></dt>
         <dd>The main line</dd>
         <dt>msg.subtext<span class="property-type">string (100 characters)</span></dt>
         <dd>The second line</dd>
@@ -172,7 +167,7 @@
         icon: "pushover-glances.svg",
         align: "right",
         label: function() {
-            return this.name || this.title || "glances";
+            return this.name || "glances";
         }
     });
 </script>
