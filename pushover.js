@@ -31,19 +31,49 @@ module.exports = function(RED) {
         this.keys = RED.nodes.getCredentials(n.keys);
 
         if (this.keys) {
-            if (!this.keys.userKey) { this.error('No pushover user key'); }
-            if (!this.keys.token) { this.error('No pushover token'); }
+            if (!this.keys.userKey) { throw 'No pushover user key'; }
+            if (!this.keys.token) { throw 'No pushover token'; }
         } else {
-            this.error('No pushover keys configuration');
+            throw 'No pushover keys configuration';
         }
 
         var node = this;
 
         this.on('input',function(msg) {
 
-            if (!msg.payload || typeof(msg.payload) != 'string'){
-                node.error('Pushover error: payload has no string');
+            if (!msg.payload){
+                throw 'Pushover error: payload has no string';
+            } else if (typeof(msg.payload) == 'object') {
+                msg.payload = JSON.stringify(msg.payload);
+            } else {
+                msg.payload = String(msg.payload);
             }
+
+            if (msg.priority) {
+                switch (msg.priority) {
+                case -2:
+                case -1:
+                case 0:
+                case 1:
+                    break;
+                case 2:
+                    if (!msg.retry || !msg.expire) {
+                        throw 'Pushover error: missing msg.retry or msg.expire';
+                    } else {
+                        if (msg.retry < 30) {
+                            throw 'Pushover error: msg.retry must at least 30';
+                        }
+                        if (msg.expire > 10800) {
+                            throw 'Pushover error: msg.expire must less than 10800';
+                        }
+                    }
+                    break;
+                default:
+                    throw 'Pushover error: priority out of range';
+                }
+            }
+
+
 
             let notification = {
                 'title'      : node.title || msg.topic || 'Node-RED Notification',
@@ -55,6 +85,8 @@ module.exports = function(RED) {
                 'url'        : msg.url,
                 'url_title'  : msg.url_title,
                 'priority'   : msg.priority,
+                'retry'      : msg.retry,
+                'expire'     : msg.expire,
                 'sound'      : msg.sound,
                 'timestamp'  : msg.timestamp
             };
