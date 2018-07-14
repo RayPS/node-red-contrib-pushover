@@ -1,9 +1,9 @@
 node-red-contrib-pushover
 ======================
 
-A <a href="http://nodered.org" target="_new">Node-RED</a> node to send alerts via <a href="http://www.pushover.net/" target="_new">Pushover</a>.
+A [Pushover](http://www.pushover.net/) API wrapper for Node-RED.
 
-Supports rich notification with image attachment.
+Supports rich notifications and watch glances.
 
 ![](banner.gif)
 ----
