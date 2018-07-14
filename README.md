@@ -17,7 +17,7 @@ Run the following command in your Node-RED user directory - typically `~/.node-r
 [![npm](https://img.shields.io/npm/v/node-red-contrib-pushover.svg)](https://www.npmjs.com/package/node-red-contrib-pushover)
 
 ### Required Inputs
-- `msg.payload`(required): The body of the notification, supports a [few html tags](https://pushover.net/api#html)
+- `msg.payload`(required): The message of the notification, supports a [few html tags](https://pushover.net/api#html)
 
 ### Optional Inputs
 - `msg.topic`: This will be used as the title of the notification if **Title** is not set
@@ -27,7 +27,7 @@ Run the following command in your Node-RED user directory - typically `~/.node-r
 - `msg.priority`: -2/-1/1/2, [see explain](https://pushover.net/api#priority)
 - `msg.device`: Default for all device if not provided. Separated by a comma
 - `msg.sound`: Name of the notification sound, [see the list](https://pushover.net/api#sounds)
-- `msg.timestamp`: A unix timestamp to specific the date time of your notification
+- `msg.timestamp`: An unix timestamp to specific the date time of your notification
 
 
 See <a href="https://pushover.net/api" target="_new">Pushover.net</a> for more details.
