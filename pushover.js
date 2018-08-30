@@ -28,7 +28,7 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,n);
 
         this.title = n.title;
-        this.keys = RED.nodes.getCredentials(n.keys);
+        this.keys = RED.nodes.getCredentials(n.id);
 
         if (this.keys) {
             if (!this.keys.userKey) { throw 'No pushover user key'; }
@@ -130,7 +130,7 @@ module.exports = function(RED) {
     function PushoverGlancesNode(n) {
         RED.nodes.createNode(this,n);
 
-        this.keys = RED.nodes.getCredentials(n.keys);
+        this.keys = RED.nodes.getCredentials(n.id);
         this.title = n.title;
         this.text = n.text;
         this.subtext = n.subtext;
