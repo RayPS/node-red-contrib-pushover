@@ -1,4 +1,4 @@
-module.exports = function(RED) {
+module.exports = function (RED) {
     'use strict';
     const request = require('request');
     const fs = require('fs');
@@ -39,9 +39,9 @@ module.exports = function(RED) {
 
         var node = this;
 
-        this.on('input',function(msg) {
+        this.on('input',function (msg) {
 
-            if (!msg.payload){
+            if (!msg.payload) {
                 throw 'Pushover error: payload has no string';
             } else if (typeof(msg.payload) == 'object') {
                 msg.payload = JSON.stringify(msg.payload);
@@ -98,22 +98,26 @@ module.exports = function(RED) {
             function parseImageUrl() {
                 let hasProtocol = msg.image.match(/^(\w+:\/\/)/igm);
                 if (hasProtocol) {
-                    return request.get({url: msg.image, encoding: null}).on('error', function(err){ node.error('image error: ' + err); });
+                    return request.get({url: msg.image, encoding: null}).on('error', function (err) { node.error('image error: ' + err); });
                 } else {
                     return fs.createReadStream(msg.image);
                 }
             }
 
-            function push(form){
+            function push(form) {
                 let pushoverAPI = 'https://api.pushover.net/1/messages.json?html=1';
-                request.post({ url: pushoverAPI, formData: form }, function(err,httpResponse,body){
-                    let result = JSON.parse(body);
-                    if (result.status != 1) {
-                        node.error('Pushover error: ' + JSON.stringify(result.errors));
-                    } else {
-                        node.log('pushover POST succeeded:\n' + JSON.stringify(body));
+                request.post({ url: pushoverAPI, formData: form }, function (err, httpResponse, body) {
+                    try {
+                        let result = JSON.parse(body);
+                        if (result.status != 1) {
+                            node.error('Pushover error: ' + JSON.stringify(result.errors));
+                        } else {
+                            node.log('pushover POST succeeded:\n' + JSON.stringify(body));
+                        }
+                    } catch (error) {
+                        node.error('Error parsing json: ' + error.message);
                     }
-                }).on('error', function(err) {
+                }).on('error', function (err) {
                     this.error('Pushover error: ' + err);
                 });
             }
@@ -144,7 +148,7 @@ module.exports = function(RED) {
 
         var node = this;
 
-        this.on('input',function(msg) {
+        this.on('input',function (msg) {
 
             msg.count = parseInt(msg.count);
             msg.percent = Math.min(100, Math.max(0, parseInt(msg.percent)));
@@ -174,16 +178,20 @@ module.exports = function(RED) {
                 if (!glances[k]) { delete glances[k]; }
             }
 
-            function push(form){
+            function push(form) {
                 let pushoverAPI = 'https://api.pushover.net/1/glances.json';
-                request.post({ url: pushoverAPI, formData: form }, function(err,httpResponse,body){
-                    let result = JSON.parse(body);
-                    if (result.status != 1) {
-                        node.error('Pushover error: ' + JSON.stringify(result.errors));
-                    } else {
-                        node.log('pushover POST succeeded:\n' + JSON.stringify(body));
+                request.post({ url: pushoverAPI, formData: form }, function (err, httpResponse, body) {
+                    try {
+                        let result = JSON.parse(body);
+                        if (result.status != 1) {
+                            node.error('Pushover error: ' + JSON.stringify(result.errors));
+                        } else {
+                            node.log('pushover POST succeeded:\n' + JSON.stringify(body));
+                        }
+                    } catch (error) {
+                        node.error('Error parsing json: ' + error.message);
                     }
-                }).on('error', function(err) {
+                }).on('error', function (err) {
                     this.error('Pushover error: ' + err);
                 });
             }
