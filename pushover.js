@@ -118,7 +118,7 @@ module.exports = function (RED) {
                         node.error('Error parsing json: ' + error.message);
                     }
                 }).on('error', function (err) {
-                    this.error('Pushover error: ' + err);
+                    node.error('Pushover error: ' + err);
                 });
             }
 
@@ -192,7 +192,7 @@ module.exports = function (RED) {
                         node.error('Error parsing json: ' + error.message);
                     }
                 }).on('error', function (err) {
-                    this.error('Pushover error: ' + err);
+                    node.error('Pushover error: ' + err);
                 });
             }
 
