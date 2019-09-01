@@ -1,6 +1,6 @@
 {
     "name": "node-red-contrib-pushover",
-    "version": "0.1.9",
+    "version": "0.1.10",
     "description": "A Pushover API wrapper for Node-RED",
     "dependencies": {
         "request": "~2.87.0"
