@@ -39,7 +39,7 @@ module.exports = function (RED) {
 
         var node = this;
 
-        this.on('input',function (msg) {
+        this.on('input',function (msg, send, done) {
 
             if (!msg.payload) {
                 throw 'Pushover error: payload has no string';
@@ -98,7 +98,15 @@ module.exports = function (RED) {
             function parseImageUrl() {
                 let hasProtocol = msg.image.match(/^(\w+:\/\/)/igm);
                 if (hasProtocol) {
-                    return request.get({url: msg.image, encoding: null}).on('error', function (err) { node.error('image error: ' + err); });
+                    return request
+                      .get({url: msg.image, encoding: null})
+                      .on('error', function (err) {
+                          if (done) {
+                              done(err);
+                          } else {
+                              node.error('image error: ' + err);
+                          }
+                      });
                 } else {
                     return fs.createReadStream(msg.image);
                 }
@@ -110,15 +118,30 @@ module.exports = function (RED) {
                     try {
                         let result = JSON.parse(body);
                         if (result.status != 1) {
-                            node.error('Pushover error: ' + JSON.stringify(result.errors));
+                            if (done) {
+                                done(result.errors);
+                            } else {
+                                node.error('Pushover error: ' + JSON.stringify(result.errors));
+                            }
                         } else {
                             node.log('pushover POST succeeded:\n' + JSON.stringify(body));
+                            if (done) {
+                                done();
+                            }
                         }
                     } catch (error) {
-                        node.error('Error parsing json: ' + error.message);
+                        if (done) {
+                            done(error.message);
+                        } else {
+                            node.error('Error parsing json: ' + error.message);
+                        }
                     }
                 }).on('error', function (err) {
-                    node.error('Pushover error: ' + err);
+                    if (done) {
+                        done(err);
+                    } else {
+                        node.error('Pushover error: ' + err);
+                    }
                 });
             }
 
@@ -148,7 +171,7 @@ module.exports = function (RED) {
 
         var node = this;
 
-        this.on('input',function (msg) {
+        this.on('input',function (msg, send, done) {
 
             msg.count = parseInt(msg.count);
             msg.percent = Math.min(100, Math.max(0, parseInt(msg.percent)));
@@ -168,7 +191,7 @@ module.exports = function (RED) {
                 if (glances[t]) {
                     glances[t] = String(glances[t]);
                     if (glances[t].length > 100) {
-                        node.error(`Pushover error: length of "msg.${t}" should less than 100`);
+                        node.warn(`Pushover error: length of "msg.${t}" should less than 100`);
                         glances[t] = glances[t].slice(0, 100);
                     }
                 }
@@ -184,15 +207,30 @@ module.exports = function (RED) {
                     try {
                         let result = JSON.parse(body);
                         if (result.status != 1) {
-                            node.error('Pushover error: ' + JSON.stringify(result.errors));
+                            if (done) {
+                                done(result.errors);
+                            } else {
+                                node.error('Pushover error: ' + JSON.stringify(result.errors));
+                            }
                         } else {
                             node.log('pushover POST succeeded:\n' + JSON.stringify(body));
+                            if (done) {
+                                done();
+                            }
                         }
                     } catch (error) {
-                        node.error('Error parsing json: ' + error.message);
+                        if (done) {
+                            done(error.message);
+                        } else {
+                            node.error('Error parsing json: ' + error.message);
+                        }
                     }
                 }).on('error', function (err) {
-                    node.error('Pushover error: ' + err);
+                    if (done) {
+                        done(err);
+                    } else {
+                        node.error('Pushover error: ' + err);
+                    }
                 });
             }
 
